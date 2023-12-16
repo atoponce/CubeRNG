@@ -12,28 +12,31 @@
   </head>
   <body>
     <main class="container">
-      <h1>CubeRNG: A Random Number Generator using Rubiks Cubes</h1>
+      <h1>CubeRNG: A RNG using Rubik's Cubes</h1>
       <ul class="nav nav-tabs bg-light">
-        <li class="nav-item" role="presentation">
-          <button class="nav-link" id="mini-tab" data-bs-toggle="tab" data-bs-target="#mini" type="button" role="tab" aria-controls="mini" aria-selected="true">2×2 Mini Cube</button>
+        <li onclick="toggleSwatches('block')" class="nav-item" role="presentation">
+          <button class="nav-link" id="mini-tab" data-bs-toggle="tab" data-bs-target="#mini" type="button" role="tab" aria-controls="mini" aria-selected="true">2×2×2 Mini Cube</button>
         </li>
         <li>
-          <button class="nav-link active" id="rubik-tab" data-bs-toggle="tab" data-bs-target="#rubik" type="button" role="tab" aria-controls="rubik" aria-selected="true">3×3 Rubik's Cube</button>
+        <li onclick="toggleSwatches('block')">
+          <button class="nav-link active" id="rubik-tab" data-bs-toggle="tab" data-bs-target="#rubik" type="button" role="tab" aria-controls="rubik" aria-selected="true">3×3×3 Rubik's Cube</button>
         </li>
         <li>
-          <button class="nav-link" id="master-tab" data-bs-toggle="tab" data-bs-target="#master" type="button" role="tab" aria-controls="master" aria-selected="true">4×4 Master Cube</button>
+        <li onclick="toggleSwatches('block')">
+          <button class="nav-link" id="master-tab" data-bs-toggle="tab" data-bs-target="#master" type="button" role="tab" aria-controls="master" aria-selected="true">4×4×4 Master Cube</button>
         </li>
         <li>
-          <button class="nav-link" id="professor-tab" data-bs-toggle="tab" data-bs-target="#professor" type="button" role="tab" aria-controls="professor" aria-selected="true">5×5 Professor Cube</button>
+        <li onclick="toggleSwatches('block')">
+          <button class="nav-link" id="professor-tab" data-bs-toggle="tab" data-bs-target="#professor" type="button" role="tab" aria-controls="professor" aria-selected="true">5×5×5 Professor Cube</button>
         </li>
-        <li>
-          <button class="nav-link" id="security-tab" data-bs-toggle="tab" data-bs-target="#security" type="button" role="tab" aria-controls="security" aria-selected="true">Security</button>
+        <li onclick="toggleSwatches('none')">
+          <button class="nav-link" id="security-tab" data-bs-toggle="tab" data-bs-target="#security" type="button" role="tab" aria-controls="security" aria-selected="true" >Security</button>
         </li>
       </ul>
       <div class="tab-content" id="tabbedContent">
-        <div>
-          <p>Select a facelet color:</p>
-          <div class="color-picker">
+        <div id="color-swatches">
+          <span>Select a facelet color:</span>
+          <span class="color-picker">
             <span onclick="getColor(this)" class="facelet"></span>
             <span onclick="getColor(this)" class="white"></span>
             <span onclick="getColor(this)" class="orange"></span>
@@ -41,8 +44,8 @@
             <span onclick="getColor(this)" class="red"></span>
             <span onclick="getColor(this)" class="blue"></span>
             <span onclick="getColor(this)" class="yellow"></span>
-          </div>
-          <p>Selected color:</p>
+          </span>
+          <span>Selected color:</span>
           <span id="color" class="facelet"></span>
         </div>
         <!-- 2x2 -->
@@ -446,7 +449,105 @@
           <span id="professor-hash"></span>
         </div>
         <div class="tab-pane" id="security" role="tabpanel" aria-labelledby="security-tab">
-          <p>Foo</p>
+          <p>The security of using the Rubik's Cube as a hardware random number generator (HWRNG) is based strictly on the size of the permutation space for each cube. Which means our threat model is requiring the adversary to find the exact permutation state we just created. The cube can be thought of as a series of 18 unique quarter-twists. Because the current permutation is strictly based on the previous permutation, this makes the Rubik's Cube chaotic rather than truly random. However, chaotic systems, such as lava lamps and double pendulums, can still good sources of randomness if handled carefully, so that's what this page is hoping to accomplish.</p>
+          <p>The number of unique permutations in an N×N×N cube are as follows:</p>
+          <ul>
+            <li><strong>2×2×2</strong>: <a href="https://en.wikipedia.org/wiki/Pocket_Cube#Permutations">3.674 million</a></li>
+            <li><strong>3×3×3</strong>: <a href="https://en.wikipedia.org/wiki/Rubik's_Cube#Permutations">43.252 quintillion</a></li>
+            <li><strong>4×4×4</strong>: <a href="https://en.wikipedia.org/wiki/Rubik's_Revenge#Permutations">7.401 quattuordecillion</a></li>
+            <li><strong>5×5×5</strong>: <a href="https://en.wikipedia.org/wiki/Professor%27s_Cube#Permutations">282.870 trevigintillion</a></li>
+          </ul>
+          <p>This means that each N×N×N cube provides the following symmetric security:</p>
+          <ul>
+            <li><strong>2×2×2</strong>: ~21 bits</li>
+            <li><strong>3×3×3</strong>: ~65 bits</li>
+            <li><strong>4×4×4</strong>: ~152 bits</li>
+            <li><strong>5×5×5</strong>: ~247 bits</li>
+          </ul>
+          <p>When generating the random number in the web app, the color for each facelet on the cube is recorded row-by-row starting with the top-left corner on the up face and working to the bottom right corner on the down face then hashed with SHA-256 and truncated. As every HWRNG produces biased raw data, SHA-256 hashing is used to whiten the output. The index order of the cube when collecting facelet colors is shown below:</p>
+          <div class="face up">
+            <div class="facelet none">1</div>
+            <div class="facelet none">2</div>
+            <div class="facelet none">3</div>
+            <div class="facelet none">4</div>
+            <div class="facelet none">5</div>
+            <div class="facelet none">6</div>
+            <div class="facelet none">7</div>
+            <div class="facelet none">8</div>
+            <div class="facelet none">9</div>
+          </div>
+          <div class="face left">
+            <div class="facelet none">10</div>
+            <div class="facelet none">11</div>
+            <div class="facelet none">12</div>
+            <div class="facelet none">13</div>
+            <div class="facelet none">14</div>
+            <div class="facelet none">15</div>
+            <div class="facelet none">16</div>
+            <div class="facelet none">17</div>
+            <div class="facelet none">18</div>
+          </div>
+          <div class="face front">
+            <div class="facelet none">19</div>
+            <div class="facelet none">20</div>
+            <div class="facelet none">21</div>
+            <div class="facelet none">22</div>
+            <div class="facelet none">23</div>
+            <div class="facelet none">24</div>
+            <div class="facelet none">25</div>
+            <div class="facelet none">26</div>
+            <div class="facelet none">27</div>
+          </div>
+          <div class="face right">
+            <div class="facelet none">28</div>
+            <div class="facelet none">29</div>
+            <div class="facelet none">30</div>
+            <div class="facelet none">31</div>
+            <div class="facelet none">32</div>
+            <div class="facelet none">33</div>
+            <div class="facelet none">34</div>
+            <div class="facelet none">35</div>
+            <div class="facelet none">36</div>
+          </div>
+          <div class="face back">
+            <div class="facelet none">37</div>
+            <div class="facelet none">38</div>
+            <div class="facelet none">39</div>
+            <div class="facelet none">40</div>
+            <div class="facelet none">41</div>
+            <div class="facelet none">42</div>
+            <div class="facelet none">43</div>
+            <div class="facelet none">44</div>
+            <div class="facelet none">45</div>
+          </div>
+          <div class="face down">
+            <div class="facelet none">46</div>
+            <div class="facelet none">47</div>
+            <div class="facelet none">48</div>
+            <div class="facelet none">49</div>
+            <div class="facelet none">50</div>
+            <div class="facelet none">51</div>
+            <div class="facelet none">52</div>
+            <div class="facelet none">53</div>
+            <div class="facelet none">54</div>
+          </div>
+          <p>Because the security of CubeRNG is based on the permutation state of the cube, it's critical that you do sufficient quarter twists such that it is difficult for an adversary to reproduce. For solving the 3×3×3 Rubki's Cube, it has been shown that regardless of the permutation state of the cube, it can always be solved in 20 moves, or 26 quarter twists, or less. This is known as "<a href="https://cube20.org">God's Number</a>. As such, the World Cube Association has a Java program called "<a href="https://github.com/thewca/tnoodle">TNoodle</a>" that applies on average 20 twists to a 3×3×3 cube before a competitor can attempt solving it. In fact, the number of turns TNoodle performs on each cube it supports in competition is:</p>
+          <ul>
+            <li><strong>2×2×2</strong>: ~11 moves (average)</li>
+            <li><strong>3×3×3</strong>: ~19 moves (average)</li>
+            <li><strong>4×4×4</strong>: ~44 moves (average)</li>
+            <li><strong>5×5×5</strong>: 60 moves</li>
+            <li><strong>6×6×6</strong>: 30 moves</li>
+            <li><strong>7×7×7</strong>: 100 moves</li>
+          </ul>
+          <p>However, solving the cube is different than producing an unpredictable state for an adversary. <a href="https://theconversation.com/how-hard-is-it-to-scramble-rubiks-cube-129916">Some research has been done</a> investigating the number of required twists to maximize uniform distribution of permutations. For the 2×2×2 cube, according to that post, 20 moves are necessary, which is about 10 more than what the World Cube Association requires for competition. So scrambling a cube for sufficient security might require 10+ more moves past God's Number. This would then look like:</p>
+          <ul>
+            <li><strong>2×2×2</strong>: 20 quarter twists</li>
+            <li><strong>3×3×3</strong>: 30 quarter twists</li>
+            <li><strong>4×4×4</strong>: 55 quarter twists</li>
+            <li><strong>5×5×5</strong>: 70 quarter twists</li>
+          </ul>
+          <p>More rigor needs to be executed to properly define the security margins for each cube. This could be accomplished by using a pseudorandom number generator to apply different number of random quarter twists to each cube, then calculate the Shannon entropy when finished. As the number of quarter twists increases, we should see the entropy approach the theoretical security margins listed above.</p>
         </div>
       </div>
     </main>

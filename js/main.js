@@ -20,11 +20,14 @@ function clearCube(size) {
   // For testing so I don't have to keep clearing cubes.
   const types = ["mini", "rubik", "master", "professor"]
   const type = types[size - 2]
+  const id = document.getElementById(type + "-hash")
 
   for (let i = 1; i <= size ** 2 * 6; i++) {
     const facelet = document.getElementById(type + "-" + i)
     facelet.className = "facelet"
   }
+
+  id.innerHTML = ""
 }
 
 function getColor(element) {
@@ -43,6 +46,11 @@ function sha256(str) {
   return crypto.subtle.digest("SHA-256", buffer).then(function(digest) {
     return digest
   })
+}
+
+function toggleSwatches(disp) {
+  const id = document.getElementById("color-swatches")
+  id.style.display = disp
 }
 
 function collectFacelets(size, output) {
@@ -125,7 +133,7 @@ function hashCube(size) {
       for (let i = 1; i < 31; i++) result += view.getUint8(i).toString(16).padStart(2, "0")
     }
 
-    id.innerText = result
+    id.innerHTML = result
     id.style.color = ""
   })
 }

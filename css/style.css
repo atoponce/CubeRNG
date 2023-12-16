@@ -4,7 +4,6 @@
   --face-width: 120px;
   --facelet-border: 1px;
   --facelet-width: 25px;
-  --grid-margin: 25px;
 }
 
 .face {
@@ -23,13 +22,12 @@
   text-align: center;
 }
 
-.grid {
-  float: left;
-  margin: var(--grid-margin);
+.none {
+  background-image: none;
 }
 
-#container {
-  clear: both;
+.grid {
+  float: left;
 }
 
 #color {
@@ -46,6 +44,8 @@
 /* 3x3 */
 #rubik .face .facelet { height: calc(var(--face-width) / 3); width: calc(var(--face-width) / 3); }
 #rubik .up, #rubik .down { margin-left: calc(var(--face-width) + var(--face-margin)); }
+#security .face .facelet { height: calc(var(--face-width) / 3); width: calc(var(--face-width) / 3); }
+#security .up, #security .down { margin-left: calc(var(--face-width) + var(--face-margin)); }
 
 /* 4x4 */
 #master .face .facelet { height: calc(var(--face-width) / 4); width: calc(var(--face-width) / 4); }
