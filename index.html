@@ -34,20 +34,24 @@
         </li>
       </ul>
       <div class="tab-content" id="tabbedContent">
-        <div id="color-swatches">
-          <span>Select a facelet color:</span>
-          <span class="color-picker">
-            <span onclick="getColor(this)" class="facelet"></span>
-            <span onclick="getColor(this)" class="white"></span>
-            <span onclick="getColor(this)" class="orange"></span>
-            <span onclick="getColor(this)" class="green"></span>
-            <span onclick="getColor(this)" class="red"></span>
-            <span onclick="getColor(this)" class="blue"></span>
-            <span onclick="getColor(this)" class="yellow"></span>
-          </span>
-          <span>Selected color:</span>
-          <span id="color" class="facelet"></span>
-        </div>
+        <table id="color-swatches">
+          <tr>
+            <td style="text-align: right">Select a facelet color:</td>
+            <td class="color-picker">
+              <span onclick="getColor(this)" class="facelet"></span>
+              <span onclick="getColor(this)" class="white"></span>
+              <span onclick="getColor(this)" class="orange"></span>
+              <span onclick="getColor(this)" class="green"></span>
+              <span onclick="getColor(this)" class="red"></span>
+              <span onclick="getColor(this)" class="blue"></span>
+              <span onclick="getColor(this)" class="yellow"></span>
+            </td>
+          </tr>
+          <tr>
+            <td style="text-align: right">Selected color:</span>
+            <td id="color" class="facelet"></span>
+          </tr>
+        </table>
         <!-- 2x2 -->
         <div class="grid tab-pane" id="mini" role="tabpanel" aria-labelledby="mini-tab">
           <div class="face up">
