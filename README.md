@@ -17,10 +17,10 @@ secure randomness:
 This project takes advantage of the sheer number of permutations in a Rubik's Cube. The number of
 unique permutations per cube is already known:
 
-- 2×2×2: [3,674,160][3] 
-- 3×3×3: [43,252,003,274,489,856,000][4]
-- 4×4×4: [7,401,196,841,564,901,869,874,093,974,498,574,336,000,000,000][5]
-- 5×5×5: [282,870,942,277,741,856,536,180,333,107,150,328,293,127,731,985,672,134,721,536,000,000,000,000,000][6]
+- 2×2×2: [3.674 million][3] 
+- 3×3×3: [43.252 quintillion][4]
+- 4×4×4: [7.401 quattuordecillion][5]
+- 5×5×5: [282.870 trevigintillion][6]
 
 [3]: https://en.wikipedia.org/wiki/Pocket_Cube#Permutations
 [4]: https://en.wikipedia.org/wiki/Rubik's_Cube#Permutations
