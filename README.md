@@ -1,5 +1,5 @@
 # CubeRNG
-A hardware random number generator (HWRNG) using 2×2, 3×3, 4×4, and 5×5 Rubik's Cubes.
+A hardware random number generator (HWRNG) using 2×2×2, 3×3×3, 4×4×4, and 5×5×5 Rubik's Cubes.
 
 ## Motivation
 There are a number of different methods you can execute by hand for generating cryptographically
@@ -15,65 +15,65 @@ secure randomness:
 [2]: https://defuse.ca/manual-random-number-generator.htm
 
 This project takes advantage of the sheer number of permutations in a Rubik's Cube. The number of
-unique permitions per cube is already known:
+unique permutations per cube is already known:
 
-- 2×2: [3,674,160][3] 
-- 3×3: [43,252,003,274,489,856,000][4]
-- 4×4: [7,401,196,841,564,901,869,874,093,974,498,574,336,000,000,000][5]
-- 5×5: [282,870,942,277,741,856,536,180,333,107,150,328,293,127,731,985,672,134,721,536,000,000,000,000,000][6]
+- 2×2×2: [3,674,160][3] 
+- 3×3×3: [43,252,003,274,489,856,000][4]
+- 4×4×4: [7,401,196,841,564,901,869,874,093,974,498,574,336,000,000,000][5]
+- 5×5×5: [282,870,942,277,741,856,536,180,333,107,150,328,293,127,731,985,672,134,721,536,000,000,000,000,000][6]
 
 [3]: https://en.wikipedia.org/wiki/Pocket_Cube#Permutations
 [4]: https://en.wikipedia.org/wiki/Rubik's_Cube#Permutations
 [5]: https://en.wikipedia.org/wiki/Rubik's_Revenge#Permutations
 [6]: https://en.wikipedia.org/wiki/Professor%27s_Cube#Permutations
 
-This means when sufficient scrambled, each cube provides approximately the following in symmetric
+This means when sufficiently scrambled, each cube provides approximately the following in symmetric
 security:
 
-- 2×2: ~21 bits
-- 3×3: ~65 bits
-- 4×4: ~152 bits
-- 5×5: ~247 bits
+- 2×2×2: ~21 bits
+- 3×3×3: ~65 bits
+- 4×4×4: ~152 bits
+- 5×5×5: ~247 bits
 
 ## Scrambling
 The trick is knowing how many twists are required to sufficiently scramble a cube. Unfortunately, I
 don't have that answer—at least not rigorously. However, I think we can get within ballpark of
 at least making it sufficiently difficult for an adversary to precisely reproduce.
 
-The shortest path to solving the worst case 3×3 cube is [20 moves][7], or 26 quarter turn twists.
+The shortest path to solving the worst case 3×3×3 cube is [20 moves][7], or 26 quarter turn twists.
 This is known as "God's Number". This number states that no matter how the cube is scrambled, it can
 be guaranteed to be solved within 20 moves or less.
 
 [7]: https://www.cube20.org/
 
-The World Cube Association as a program called [TNoodle][8] that applies 20 twists to a 3×3 cube
+The World Cube Association as a program called [TNoodle][8] that applies 20 twists to a 3×3×3 cube
 before the competitor can attempt solving it. In fact, the number of turns TNoodle performs on each
 cube it supports is:
 
-- 2×2: ~11 (average)
-- 3×3: ~19 (average)
-- 4×4: ~44 (average)
-- 5×5: 60
-- 6×6: 80
-- 7×7: 100
+- 2×2×2: ~11 (average)
+- 3×3×3: ~19 (average)
+- 4×4×4: ~44 (average)
+- 5×5×5: 60
+- 6×6×6: 80
+- 7×7×7: 100
 
 [8]: https://github.com/thewca/tnoodle
 
 However, scrambling a cube to be solved might not be the same as a sufficiently-scrambled cube for
 security. Remember that the goal is to prevent an adversary from recreating the scrambled state.
 [Some research][9] has been done here. The goal is to ensure that every cubelet can occupy every
-possible position from the solved state as well as every possible orientation. For the 2×2 cube, it
-appears that at least 20 moves are necessary.
+possible position from the solved state as well as every possible orientation. For the 2×2×2 cube,
+it appears that at least 20 moves are necessary.
 
 [9]: https://theconversation.com/how-hard-is-it-to-scramble-rubiks-cube-129916
 
 So instead, scrambling a cube for security might require 10+ additional moves past God's Number.
 Something like:
 
-- 2×2: 20 moves
-- 3×3: 30 moves
-- 4×4: 55 moves
-- 5×5: 70 moves
+- 2×2×2: 20 moves
+- 3×3×3: 30 moves
+- 4×4×4: 55 moves
+- 5×5×5: 70 moves
 
 ## Execution
 Once you've sufficiently scrambled your cube, record the facelet colors in the web app and press the
@@ -83,18 +83,18 @@ permutation are removed.
 
 The "test vectors" for the SHA-256 digest of a solved cube are:
 
-- 2×2: 0x09cca8
-- 3×3: 0x1397cb125ac75bd57
-- 4×4: 0xe5de84cc8a7174f870b62113b98c5b90a3e9
-- 5×5: 0x5f3a3d2d2199e13440dcb377f29029b51e59c1b2ae5d4c69bd9d692f96f52b
+- 2×2×2: 0x09cca8
+- 3×3×3: 0x1397cb125ac75bd57
+- 4×4×4: 0xe5de84cc8a7174f870b62113b98c5b90a3e9
+- 5×5×5: 0x5f3a3d2d2199e13440dcb377f29029b51e59c1b2ae5d4c69bd9d692f96f52b
 
 A solved cube is defined as:
 
 - Up: white
-- Front: green
-- Back: blue
 - Left: orange
+- Front: green
 - Right: red
+- Back: blue
 - Down: yellow
 
 ## Caution
@@ -105,6 +105,7 @@ scramble, record the colors in the web app, and calculate your random number.
 But once you've received your random number, you will want to destroy the scrambled cube state. If
 you can solve the cube, this would be the best approach. If you cannot solve it, then continue
 scrambling the cube to erase the state, preventing an adversary from discovering it. Of course,
-close your browser tab to pvent the digest from staying on the screen for the same reason.
+press the red "Clear cube" button or close your browser tab to prevent the digest from staying on
+the screen for the same reason.
 
 This project does not intentionally transmit anything over the network or store anything to disk.
